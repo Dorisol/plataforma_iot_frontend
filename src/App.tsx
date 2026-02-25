@@ -15,9 +15,10 @@ export default function App() {
   };
 
   //Si no hay usuarios autenticados, mostrar el login
+  /*
   if (!user) {
     return <LoginPage/>;
-  }
+  }*/
 
   //Si hay usuarios autenticados, mostrar el dashboard
   return <DashboardPage/>;
