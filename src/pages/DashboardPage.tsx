@@ -2,11 +2,13 @@ import { Activity, LogOut, Cpu } from "lucide-react";
 import { useState } from "react";
 import { getDispositivosPorTenant } from "../helpers/helpers";
 import type { Dispositivo } from "../types/DispositivoInterface"
-import { DispositivoCard } from "../components/DispositivoCard"
+import { DispositivoCard } from "../components/dashboard/DispositivoCard"
+import { VistaMetricas } from "../components/dashboard/VistaMetricas";
 
 
 export function DashboardPage() {
     const tenant = "tenant-001";
+    const nombreTenant = "Proyecto Chetumal";
     const location = "Chetumal";
     const usuario = "Dorisol";
     const rol = "admin"
@@ -35,7 +37,7 @@ export function DashboardPage() {
                         </div>
                         <div>
                             <h1 className="mx-2 text-2xl font-bold text-gray-900">
-                                {tenant}
+                                {nombreTenant}
                             </h1>
                             <p className="mx-2 text-sm text-gray-500">{location}</p>
                         </div>
@@ -54,7 +56,7 @@ export function DashboardPage() {
                 </div>
             </header>
 
-            <div className="max-w-7xl px-4 py-4">
+            <div className="max-w-full px-4 py-4">
                 <div className="grid grid-cols-4 gap-6">
                     {/* Lista de dispositivos */}
                     <div className="col-span-1">
@@ -129,7 +131,7 @@ export function DashboardPage() {
                             <h1>Estos son los dispositovos</h1>
                         ) : dispositivoSeleccionado ? (
                             opcionMenu === "metricas" ? (
-                                <h1>Estas son mis metricas</h1>
+                                <VistaMetricas dispositivo={dispositivoSeleccionado}/>
                             ) : (
                                 <h1>Estos son las imagenes</h1>
                             )
