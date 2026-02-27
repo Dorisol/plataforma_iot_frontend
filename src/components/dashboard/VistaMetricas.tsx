@@ -33,7 +33,7 @@ export function VistaMetricas({ dispositivo }: VistaMetricasProps) {
                         <Clock className="w-8 h-8 text-gray-400" />
                     </div>
                     <h3 className="text-2xl font-medium text-gray-900 mb-2">
-                        Dispositvo fuera de línea
+                        Dispositivo fuera de línea
                     </h3>
                     <p className="text-sm">
                         Este dispositivo no está enviando datos

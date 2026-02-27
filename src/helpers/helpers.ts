@@ -1,9 +1,11 @@
 import { dispositivos } from "../mock/DispositivosMockData";
 import { usuarios } from "../mock/UsuarioMockData";
+import { imagenes } from "../mock/ImagenesMockData";
 import type { Dispositivo } from "../types/DispositivoInterface";
 import type { Usuario } from "../types/UsuarioInterface";
 import type { Sensor } from "../types/SensorDatosInterface";
-
+import type { Imagenes } from "../types/ImagenesInterface";
+    
 
 export const getDispositivosPorTenant = (idTenant: string): Dispositivo[] => {
     const misdispositivos = dispositivos.filter(dispositivo => dispositivo.idTenant === idTenant);
@@ -35,4 +37,10 @@ export const generarDatosSensores = (idDispositivo: string): Sensor[] => {
     }
 
     return datosSensores;
+};
+
+
+export const getImagenesPorDispositivo = (idDispositivo:string, idTenant:string): Imagenes[] => {
+    const misImagenes = imagenes.filter(imagen => imagen.idDispositivo === idDispositivo && imagen.idTenant === idTenant);
+    return misImagenes;
 };

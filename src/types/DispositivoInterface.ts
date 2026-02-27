@@ -4,4 +4,5 @@ export interface Dispositivo {
     nombre: string; 
     tipo: "ESP32" | "RASPBERRY" | "NORDIC";
     status: "ON" | "OFF";
+    imagenesDisponibles: boolean
 }

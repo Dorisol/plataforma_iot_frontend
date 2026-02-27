@@ -4,6 +4,7 @@ import { getDispositivosPorTenant } from "../helpers/helpers";
 import type { Dispositivo } from "../types/DispositivoInterface"
 import { DispositivoCard } from "../components/dashboard/DispositivoCard"
 import { VistaMetricas } from "../components/dashboard/VistaMetricas";
+import { VistaImagenes } from "../components/dashboard/VistaImagenes";
 
 
 export function DashboardPage() {
@@ -73,6 +74,7 @@ export function DashboardPage() {
                                     <div className="space-y-2">
                                         {todosDispostivos.map((dispositivo) => (
                                             <DispositivoCard
+                                                key={dispositivo.idDispositivo}
                                                 dispositivo={dispositivo}
                                                 isSeleccionado={dispositivoSeleccionado?.idDispositivo === dispositivo.idDispositivo}
                                                 onClick={() => setDispositivoSeleccionado(dispositivo)}
@@ -133,7 +135,7 @@ export function DashboardPage() {
                             opcionMenu === "metricas" ? (
                                 <VistaMetricas dispositivo={dispositivoSeleccionado}/>
                             ) : (
-                                <h1>Estos son las imagenes</h1>
+                                <VistaImagenes dispositivo={dispositivoSeleccionado} />
                             )
                         ) : (
                             <div className="bg-white rounded-2xl py-6">

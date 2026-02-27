@@ -6,7 +6,8 @@ export const dispositivos: Dispositivo[] = [
         idTenant: "tenant-001",
         nombre: "ESP32_Chetumal",
         tipo: "ESP32",
-        status: "ON"
+        status: "ON",
+        imagenesDisponibles: false
     },
 
     {
@@ -14,7 +15,8 @@ export const dispositivos: Dispositivo[] = [
         idTenant: "tenant-001",
         nombre: "RASP_Chetumal",
         tipo: "RASPBERRY",
-        status: "ON"
+        status: "ON",
+        imagenesDisponibles: true
     },
 
     {
@@ -22,6 +24,7 @@ export const dispositivos: Dispositivo[] = [
         idTenant: "tenant-001",
         nombre: "LORA_Chetumal",
         tipo: "NORDIC",
-        status: "ON"
+        status: "ON",
+        imagenesDisponibles: true
     }
 ]
