@@ -5,7 +5,8 @@ import type { Dispositivo } from "../types/DispositivoInterface"
 import { DispositivoCard } from "../components/dashboard/DispositivoCard"
 import { VistaMetricas } from "../components/dashboard/VistaMetricas";
 import { VistaImagenes } from "../components/dashboard/VistaImagenes";
-
+import { VistaGestionDispositivos } from "../components/dashboard/VistaGestionDispositivos";
+ 
 
 export function DashboardPage() {
     const tenant = "tenant-001";
@@ -22,9 +23,12 @@ export function DashboardPage() {
         todosDispostivos.length > 0 ? todosDispostivos[0] : null
     );
 
+
+
+
     //MENU
     //Por default, selecciona métricas
-    const [opcionMenu, setOpcionMenu] = useState<'metricas' | 'imagenes' | 'dispositivos'>('metricas');
+    const [opcionMenu, setOpcionMenu] = useState<'metricas' | 'imagenes' | 'detalles'>('metricas');
 
 
     return (
@@ -68,7 +72,6 @@ export function DashboardPage() {
                             </div>
 
                             {/* Aqui poner las cards de los dispositivos */}
-
                             {todosDispostivos.length > 0 ? (
                                 <div>
                                     <div className="space-y-2">
@@ -82,7 +85,7 @@ export function DashboardPage() {
                                         ))}
                                     </div>
 
-                                {/* estados */}
+                                    {/* estados */}
                                     <div className="mt-6 pt-6 border-t border-gray-200">
                                         <div className="grid grid-cols-2 gap-4">
                                             <div className="text-center">
@@ -108,44 +111,72 @@ export function DashboardPage() {
                             )
                             }
 
+                            <div className="mt-6 pt-6 border-t border-gray-200 flex items-center justify-center">
+                                <button
+                                    onClick={() => setDispositivoSeleccionado(null)}
+                                    className="bg-green-600 py-2 px-4 text-white rounded-lg transition hover:bg-green-700"
+                                >Gestionar Dispositivos
+                                </button>
+                            </div>
+
                         </div>
                     </div>
 
-                    {/* contenido principal */}
-                    <div className="col-span-3">
-                        <div className="bg-white rounded-2xl mb-2">
-                            <div className="border-b border-gray-200">
-                                <nav className="flex gap-10 px-6">
-                                    <button onClick={() => setOpcionMenu("metricas")} className={`py-4 font-medium text-sm transition ${opcionMenu === "metricas" ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                                        }`}>Métricas</button>
-
-                                    <button onClick={() => setOpcionMenu("imagenes")} className={`py-4 font-medium text-sm transition ${opcionMenu === "imagenes" ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                                        }`}>Imagenes</button>
-
-                                    <button onClick={() => setOpcionMenu("dispositivos")} className={`py-4 font-medium text-sm transition ${opcionMenu === "dispositivos" ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                                        }`}>Gestionar dispositivos</button>
-                                </nav>
-                            </div>
+                    {/* contenido principal 
+                    Si voy a gestionar dispositivos, voy a abrir vista de gestion
+                    Si voy a ver un dispositivo, muestro el menú
+                    */}
+                    {dispositivoSeleccionado === null ? (
+                        <div className="col-span-3">
+                            <VistaGestionDispositivos idTenant={tenant} />
                         </div>
+                    ) : (
+                        <div className="col-span-3">
+                            <div className="bg-white rounded-2xl mb-2">
+                                <div className="border-b border-gray-200">
+                                    <nav className="flex gap-10 px-6">
+                                        <button onClick={() => setOpcionMenu("metricas")} className={`py-4 font-medium text-sm transition ${opcionMenu === "metricas" ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                                            }`}>Métricas</button>
 
-                        {/* Contenido por menu */}
-                        {opcionMenu === "dispositivos" ? (
-                            <h1>Estos son los dispositovos</h1>
-                        ) : dispositivoSeleccionado ? (
-                            opcionMenu === "metricas" ? (
-                                <VistaMetricas dispositivo={dispositivoSeleccionado}/>
-                            ) : (
-                                <VistaImagenes dispositivo={dispositivoSeleccionado} />
-                            )
-                        ) : (
-                            <div className="bg-white rounded-2xl py-6">
-                                <div className="text-center text-gray-500">
-                                    <p>No hay dispositivos</p>
-                                    <p className="text-sm">Agrega un dispositivo en la pestaña "Gestionar Dispositivo"</p>
+                                        <button onClick={() => setOpcionMenu("imagenes")} className={`py-4 font-medium text-sm transition ${opcionMenu === "imagenes" ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                                            }`}>Imagenes</button>
+
+                                        <button onClick={() => setOpcionMenu("detalles")} className={`py-4 font-medium text-sm transition ${opcionMenu === "detalles" ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                                            }`}>Detalles</button>
+
+                                    </nav>
                                 </div>
                             </div>
-                        )}
-                    </div>
+
+                            {/* Contenido por menú */}
+                            {/* {opcionMenu === "metricas" ? (
+                                <VistaMetricas dispositivo={dispositivoSeleccionado} />
+                            ): (
+                                <VistaImagenes dispositivo={dispositivoSeleccionado} />
+                            )
+                            } */}
+
+                            {/* Contenido por menu */}
+                            {opcionMenu === "detalles" ? (
+                                <h1>Estos son los dispositovos</h1>
+                            ) : dispositivoSeleccionado ? (
+                                opcionMenu === "metricas" ? (
+                                    <VistaMetricas dispositivo={dispositivoSeleccionado} />
+                                ) : (
+                                   <VistaImagenes dispositivo={dispositivoSeleccionado} />
+                                )
+                            ) : (
+                                <div className="bg-white rounded-2xl py-6">
+                                    <div className="text-center text-gray-500">
+                                        <p>No hay dispositivos</p>
+                                        <p className="text-sm">Agrega un dispositivo en la pestaña "Gestionar Dispositivo"</p>
+                                    </div>
+                                </div>
+                            )} 
+                        </div>
+                    )
+                    }
+
                 </div>
             </div>
         </div>
