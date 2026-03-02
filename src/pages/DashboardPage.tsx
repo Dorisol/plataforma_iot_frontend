@@ -5,6 +5,7 @@ import type { Dispositivo } from "../types/DispositivoInterface"
 import { DispositivoCard } from "../components/dashboard/DispositivoCard"
 import { VistaMetricas } from "../components/dashboard/VistaMetricas";
 import { VistaImagenes } from "../components/dashboard/VistaImagenes";
+import { VistaDetalles } from "../components/dashboard/VistaDetalles";
 import { VistaGestionDispositivos } from "../components/dashboard/VistaGestionDispositivos";
  
 
@@ -34,7 +35,7 @@ export function DashboardPage() {
     return (
         <div className="min-h-screen bg-gray-100">
             {/* header */}
-            <header className="bg-white shadow-sm border-b border-gray-200">
+            <header className="bg-white shadow-sm border-b border-gray-200 ">
                 <div className="px-8 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="bg-green-600 p-2 rounded-lg">
@@ -65,7 +66,7 @@ export function DashboardPage() {
                 <div className="grid grid-cols-4 gap-6">
                     {/* Lista de dispositivos */}
                     <div className="col-span-1">
-                        <div className="bg-white border-gray-200 rounded-2xl p-4">
+                        <div className="bg-white border-gray-200 rounded-2xl p-4 shadow-sm">
                             <div className="flex items-center gap-2 mb-4">
                                 <Cpu className="w-5 h-5 text-green-600" />
                                 <h2 className="font-semibold text-gray-900">Dispositivos</h2>
@@ -158,7 +159,7 @@ export function DashboardPage() {
 
                             {/* Contenido por menu */}
                             {opcionMenu === "detalles" ? (
-                                <h1>Estos son los dispositovos</h1>
+                                <VistaDetalles dispositivo={dispositivoSeleccionado}/>
                             ) : dispositivoSeleccionado ? (
                                 opcionMenu === "metricas" ? (
                                     <VistaMetricas dispositivo={dispositivoSeleccionado} />

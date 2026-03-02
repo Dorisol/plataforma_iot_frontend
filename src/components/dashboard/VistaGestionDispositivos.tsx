@@ -19,7 +19,7 @@ export function VistaGestionDispositivos({ idTenant }: GestionDispositivosProps)
     const [mostrarModalAgregar, setMostrarModalAgregar] = useState(false);
     const [nuevoDispositivo, setNuevoDispositivo] = useState({
         nombre: '',
-        tipo: 'ESP32' as 'ESP32' | 'RASPBERRY' | 'NORDIC',
+        tipo: 'MQTT' as 'MQTT' | 'LORA',
     });
 
     //AQUI CONECTAR AL BACK
@@ -37,7 +37,7 @@ export function VistaGestionDispositivos({ idTenant }: GestionDispositivosProps)
             setDispositivos([...dispositivos, dispositivo]);
             setNuevoDispositivo({
                 nombre: '',
-                tipo: 'ESP32'})
+                tipo: 'MQTT'})
             setMostrarModalAgregar(false);
         }
     };
@@ -59,7 +59,7 @@ export function VistaGestionDispositivos({ idTenant }: GestionDispositivosProps)
 
 
     return (
-        <div className="bg-white border-gray-200 rounded-2xl p-8">
+        <div className="bg-white border-gray-200 rounded-2xl shadow-lg p-8">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 mb-6">
                     <Settings2 className="w-5 h-5 text-green-600" />
@@ -68,13 +68,13 @@ export function VistaGestionDispositivos({ idTenant }: GestionDispositivosProps)
                     </h3>
                 </div>
 
-                <button
+                {/* <button
                     onClick={() => setMostrarModalAgregar(true)}
                     className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
                 >
                     <Plus className="w-4 h-4" />
                     Agregar dispositivo
-                </button>
+                </button> */}
             </div>
 
             <div className="grid grid-cols-3 gap-4 py-4">
@@ -152,9 +152,8 @@ export function VistaGestionDispositivos({ idTenant }: GestionDispositivosProps)
                                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-transparent outline-none"
                                 required
                                 >
-                                    <option value="ESP32">ESP32</option>
-                                    <option value="RASPBERRY">Raspberry</option>
-                                    <option value="NORDIC">Nordic</option>
+                                    <option value="MQTT">MQTT</option>
+                                    <option value="LORA">Raspberry</option>
                                 </select>
                             </div>
                             <div className="flex gap-3 pt-4">
@@ -162,7 +161,7 @@ export function VistaGestionDispositivos({ idTenant }: GestionDispositivosProps)
                                     type="button"
                                     onClick={() => {
                                         setMostrarModalAgregar(false);
-                                        setNuevoDispositivo({nombre: '', tipo: 'ESP32'});
+                                        setNuevoDispositivo({nombre: '', tipo: 'MQTT'});
                                     }}
                                     className="flex-1 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition"
                                     >
