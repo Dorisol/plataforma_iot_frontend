@@ -24,3 +24,6 @@ export default function App() {
   return <DashboardPage/>;
 
 }
+
+
+//Aqui van las rutas?

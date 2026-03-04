@@ -133,7 +133,7 @@ export function DashboardPage() {
                         </div>
                     ) : (
                         <div className="col-span-3">
-                            <div className="bg-white rounded-2xl mb-2">
+                            <div className="bg-white rounded-2xl mb-2 shadow-md">
                                 <div className="border-b border-gray-200">
                                     <nav className="flex gap-10 px-6">
                                         <button onClick={() => setOpcionMenu("metricas")} className={`py-4 font-medium text-sm transition ${opcionMenu === "metricas" ? 'border-green-600 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'

@@ -56,7 +56,7 @@ export function VistaImagenes({ dispositivo }: GaleriaImagenesProps) {
         <div>
             <div className="bg-white border-gray-200 rounded-2xl p-8">
                 <div className="flex items-center gap-2 mb-6">
-                    <ImageIcon className="w-5 h-5 text-green-600" />
+                         <ImageIcon className="w-5 h-5 text-green-600" />
                     <h3 className="text-2xl font-semibold text-gray-900">
                         Imagenes capturadas ({imagenes.length})
                     </h3>

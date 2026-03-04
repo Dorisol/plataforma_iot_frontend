@@ -1,4 +1,3 @@
-import { dispositivos } from "../../mock/DispositivosMockData";
 import type { Dispositivo } from "../../types/DispositivoInterface";
 import { Info, Fingerprint, Cpu, Share2, Network } from "lucide-react";
 
@@ -54,7 +53,7 @@ export function VistaDetalles({dispositivo}: DetallesProps){
                             <Share2 className="w-4 h-4" />
                             <span className="text-xs font-semibold uppercase  ">Tópico de Suscripción</span>
                         </div>
-                        <p className="text-sm text-gray-700 font-bold p-2 rounded-lg shadow-inner overflow-x-auto">
+                        <p className="text-sm text-gray-700 font-bold p-2 rounded-lg ">
                             {dispositivo.tipo === 'MQTT' 
                                 ? `v1/${dispositivo.idTenant}/${dispositivo.idDispositivo}/data` 
                                 : "N/A"}
