@@ -14,7 +14,7 @@ export function DashboardPage() {
     const nombreTenant = "Proyecto Chetumal";
     const location = "Chetumal";
     const usuario = "Dorisol";
-    const rol = "admin"
+    const rol = "ADMIN_LOCAL"
 
     const todosDispostivos = getDispositivosPorTenant(tenant)
 

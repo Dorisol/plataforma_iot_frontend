@@ -1,29 +1,36 @@
-import { useState } from 'react'
 import { LoginPage} from './pages/LoginPage';
-import { DashboardPage } from './pages/DashboardPage';
+import { DashboardPage } from './pages/DashboardPage'; 
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 
-export default function App() {
-  const [user, setUser] = useState<string | null>(null);
+function AppContent() {
+  
+  const { usuario, isLoading, logout} = useAuth();
 
-  const handleLogin = (username: string) => {
-    setUser(username);
-  };
-
-  const handleLogout = () => {
-    setUser(null);
-  };
+  if (isLoading) {
+      return (
+        <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-gray-600">Cargando...</p>
+          </div>
+        </div>
+      );
+  }
 
   //Si no hay usuarios autenticados, mostrar el login
-  /*
-  if (!user) {
+  if (!usuario) {
     return <LoginPage/>;
-  }*/
+  }
 
-  //Si hay usuarios autenticados, mostrar el dashboard
+  //Si hay usuarios autenticados, mostrar el dashboard (admin local)
   return <DashboardPage/>;
-
 }
 
-
-//Aqui van las rutas?
+export default function App(){
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  )
+}

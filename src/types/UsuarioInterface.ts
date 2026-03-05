@@ -1,4 +1,4 @@
-export type Rol = "admin" | "superusuario";
+export type Rol = "ADMIN_LOCAL" | "SUPER_ADMIN";
 
 export interface Usuario {
     idUsuario: string;

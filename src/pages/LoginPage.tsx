@@ -1,28 +1,28 @@
 import { useState } from "react";
-import { Leaf} from "lucide-react";
-//import { Usuario } from '../types/UserInterface';
-
-/*
-interface LoginPageProps {
-  onLogin: (usuario: Usuario) => void;
-}
-  */
+import { Leaf } from "lucide-react";
+import { useAuth } from "../contexts/AuthContext";
 
 export function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  /*
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        setError('');
+  const { login } = useAuth();
 
-        //autenticar usuario
-        const user = au
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
 
+    try {
+      await login(username, password);
+    } catch (error) {
+      setError('Credenciales incorrectas');
+    } finally {
+      setIsLoading(false);
     }
-        */
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-200 flex items-center justify-center p-4">
@@ -46,6 +46,8 @@ export function LoginPage() {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                disabled={isLoading}
+                required
                 className="w-full pl-4 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none"
               />
             </div>
@@ -54,7 +56,14 @@ export function LoginPage() {
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
             <div className="relative">
-              <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full pl-4 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none" />
+              <input 
+              id="password" 
+              type="password" 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              disabled={isLoading} 
+              required 
+              className="w-full pl-4 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none" />
             </div>
           </div>
 
@@ -68,10 +77,15 @@ export function LoginPage() {
 
 
           {/* boton */}
-          <button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-lg transition-colors">
+          <button 
+          type="submit" 
+          onClick={handleSubmit} 
+          disabled={isLoading} 
+          className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-lg transition-colors">
             Iniciar Sesión
           </button>
         </form>
+
       </div>
     </div>
   );
