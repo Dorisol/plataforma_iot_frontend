@@ -59,8 +59,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
 
     const logout = async() => {
-        await AuthService.logout();
-        setUsuario(null);
+        try {
+            console.log("Sesión cerrada correctamente")
+            TokenManager.removeToken();
+            setUsuario(null);
+        } catch (error) {
+            console.error("Error al cerrar sesión", error);
+        }
     };
 
     return(

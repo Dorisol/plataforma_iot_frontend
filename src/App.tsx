@@ -24,7 +24,7 @@ function AppContent() {
   }
 
   //Si hay usuarios autenticados, mostrar el dashboard (admin local)
-  return <DashboardPage/>;
+  return <DashboardPage onLogout={logout}/>;
 }
 
 export default function App(){

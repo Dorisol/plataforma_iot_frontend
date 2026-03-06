@@ -7,9 +7,14 @@ import { VistaMetricas } from "../components/dashboard/VistaMetricas";
 import { VistaImagenes } from "../components/dashboard/VistaImagenes";
 import { VistaDetalles } from "../components/dashboard/VistaDetalles";
 import { VistaGestionDispositivos } from "../components/dashboard/VistaGestionDispositivos";
- 
+import type { Usuario } from "../types/UsuarioInterface"; 
 
-export function DashboardPage() {
+
+interface DashboardProps {
+    onLogout: () => void; 
+}
+
+export function DashboardPage({onLogout}: DashboardProps ){
     const tenant = "tenant-001";
     const nombreTenant = "Proyecto Chetumal";
     const location = "Chetumal";
@@ -23,9 +28,6 @@ export function DashboardPage() {
     const [dispositivoSeleccionado, setDispositivoSeleccionado] = useState<Dispositivo | null>(
         todosDispostivos.length > 0 ? todosDispostivos[0] : null
     );
-
-
-
 
     //MENU
     //Por default, selecciona métricas
@@ -54,7 +56,9 @@ export function DashboardPage() {
                             <p className="text-sm font-medium text-gray-900">{usuario}</p>
                             <p className="text-xs text-green-600">{rol}</p>
                         </div>
-                        <button className="flex items-center gap-2 px-4 py-2 bg-gray-100  hover:bg-green-600 text-gray-700 rounded-2xl transition">
+                        <button 
+                        onClick={onLogout}
+                        className="flex items-center gap-2 px-4 py-2 bg-gray-100  hover:bg-green-600 text-gray-700 rounded-2xl transition">
                             <LogOut className="w-4 h-4" />
                             <span>Salir</span>
                         </button>

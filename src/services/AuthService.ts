@@ -1,7 +1,5 @@
-import axios from "axios";
 
-//AQUI VOY A CONFIGURAR EL BACK
-const API_URL = "http://localhost:8000/plataforma_iot/api"; 
+import { api, API_URL } from "../boot/axios"
 
 //---------------------------------------Type para API RESPONSES---------------------------------------
 interface Usuario {
@@ -61,34 +59,6 @@ export const TokenManager = {
         }
     }
 };
-
-export const api = axios.create({
-    baseURL: API_URL,
-    headers: {
-        "Content-Type": "application/json",
-    },
-});
-
-// Interceptor para añadir el token a todas las peticiones automáticamente
-api.interceptors.request.use((config) => {
-    const token = TokenManager.getToken();
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-});
-
-// Interceptor para manejar errores globales (como el 401 Unauthorized)
-api.interceptors.response.use(
-    (response) => response,
-    (error) => {
-        if (error.response?.status === 401) {
-            TokenManager.removeToken();
-            window.location.href = '/'; // Redirigir al login si el token expira
-        }
-        return Promise.reject(error);
-    }
-);
 
 export const AuthService = {
     async login(username: string, password: string): Promise<LoginResponse> {
