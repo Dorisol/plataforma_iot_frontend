@@ -22,16 +22,16 @@ export function DispositivoCard({ dispositivo, isSeleccionado, onClick }: Dispos
                     <div className="bg-green-600 w-1 h-9 rounded-sm"><span /></div>
                     <div className="flex-1">
                         <div className="flex justify-between gap-4">
-                            <h3 className='font-medium text-gray-900 text-sm'>{dispositivo.nombre}</h3>
-                            {dispositivo.status === 'ON' ? (
+                            <h3 className='font-medium text-gray-900 text-sm'>{dispositivo.username}</h3>
+                            {dispositivo.isActivo === true ? (
                                 <Wifi className="w-4 h-4 text-green-500 flex" />
                             ) : (
                                 <WifiOff className="w-4 h-4 text-gray-400" />
                             )}
                         </div>
 
-                        <p className="text-sm text-gray-500">{dispositivo.tipo}</p>
-                        <p className="text-sm text-gray-400">{dispositivo.idDispositivo}</p> 
+                        <p className="text-sm text-gray-500">{dispositivo.protocolo}</p>
+                        <p className="text-xs text-gray-400" >{dispositivo.idDispositivo}</p> 
                     </div>
                 </div>
             }

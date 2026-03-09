@@ -1,6 +1,5 @@
-import { Activity, LogOut, Cpu } from "lucide-react";
-import { useState } from "react";
-import { getDispositivosPorTenant } from "../helpers/helpers";
+import { Activity, LogOut, Cpu, Loader2 } from "lucide-react";
+import { useEffect, useState } from "react";
 import type { Dispositivo } from "../types/DispositivoInterface"
 import { DispositivoCard } from "../components/dashboard/DispositivoCard"
 import { VistaMetricas } from "../components/dashboard/VistaMetricas";
@@ -8,31 +7,41 @@ import { VistaImagenes } from "../components/dashboard/VistaImagenes";
 import { VistaDetalles } from "../components/dashboard/VistaDetalles";
 import { VistaGestionDispositivos } from "../components/dashboard/VistaGestionDispositivos";
 import type { Usuario } from "../types/UsuarioInterface"; 
-
+import { useDispositivos } from "../hooks/useDispositivos";
+import { useTenant } from "../hooks/useTenant";
 
 interface DashboardProps {
+    usuario: Usuario;
     onLogout: () => void; 
 }
 
-export function DashboardPage({onLogout}: DashboardProps ){
-    const tenant = "tenant-001";
-    const nombreTenant = "Proyecto Chetumal";
-    const location = "Chetumal";
-    const usuario = "Dorisol";
-    const rol = "ADMIN_LOCAL"
-
-    const todosDispostivos = getDispositivosPorTenant(tenant)
-
-    //SELECCIONAR DISPOSITIVOS. 
-    //Por default, selecciona al primero de la lista
-    const [dispositivoSeleccionado, setDispositivoSeleccionado] = useState<Dispositivo | null>(
-        todosDispostivos.length > 0 ? todosDispostivos[0] : null
-    );
-
+export function DashboardPage({usuario, onLogout}: DashboardProps ){
+    //console.log("Este es el usuario:", usuario)
+    const { dispositivos, loading: loadingDispositivos } = useDispositivos(usuario.idTenant || "");
+    const { tenant, loading: loadingTenant } = useTenant(usuario.idTenant);
+    const [ dispositivoSeleccionado, setDispositivoSeleccionado ] = useState<Dispositivo|null>(null);
+    const [ mostrarGestion, setMostrarGestion ] = useState(false);
+    
     //MENU
     //Por default, selecciona métricas
     const [opcionMenu, setOpcionMenu] = useState<'metricas' | 'imagenes' | 'detalles'>('metricas');
 
+    //seleccionar el primer dispositivo cuando dispositivo carga
+    useEffect(() => {
+        if(dispositivos.length > 0 && !dispositivoSeleccionado){
+            setDispositivoSeleccionado(dispositivos[0])
+        } 
+    }, [dispositivos, dispositivoSeleccionado])
+
+    //Mostrar un loading
+    if (loadingTenant || loadingDispositivos) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-100">
+                <Loader2 className="w-8 h-8 animate-spin text-green-600" />
+                <span className="ml-2 text-gray-600">Cargando dashboard...</span>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -45,16 +54,17 @@ export function DashboardPage({onLogout}: DashboardProps ){
                         </div>
                         <div>
                             <h1 className="mx-2 text-2xl font-bold text-gray-900">
-                                {nombreTenant}
+                                {tenant?.nombre || "Cargando..."}
                             </h1>
-                            <p className="mx-2 text-sm text-gray-500">{location}</p>
+                            <p className="mx-2 text-sm text-gray-500">{tenant?.ubicacion}</p>
                         </div>
                     </div>
 
                     <div className="flex items-center gap-4">
                         <div className="text-right">
-                            <p className="text-sm font-medium text-gray-900">{usuario}</p>
-                            <p className="text-xs text-green-600">{rol}</p>
+                        
+                            <p className="text-sm font-medium text-gray-900">{usuario.username}</p>
+                            <p className="text-xs text-green-600">{usuario.rol}</p>
                         </div>
                         <button 
                         onClick={onLogout}
@@ -77,15 +87,18 @@ export function DashboardPage({onLogout}: DashboardProps ){
                             </div>
 
                             {/* Aqui poner las cards de los dispositivos */}
-                            {todosDispostivos.length > 0 ? (
+                            {dispositivos.length > 0 ? (
                                 <div>
                                     <div className="space-y-2">
-                                        {todosDispostivos.map((dispositivo) => (
+                                        {dispositivos.map((dispositivo) => (
                                             <DispositivoCard
                                                 key={dispositivo.idDispositivo}
                                                 dispositivo={dispositivo}
-                                                isSeleccionado={dispositivoSeleccionado?.idDispositivo === dispositivo.idDispositivo}
-                                                onClick={() => setDispositivoSeleccionado(dispositivo)}
+                                                isSeleccionado={!mostrarGestion && dispositivoSeleccionado?.idDispositivo === dispositivo.idDispositivo}
+                                                onClick={() => {
+                                                    setDispositivoSeleccionado(dispositivo);
+                                                    setMostrarGestion(false);
+                                                }}
                                             />
                                         ))}
                                     </div>
@@ -95,14 +108,14 @@ export function DashboardPage({onLogout}: DashboardProps ){
                                         <div className="grid grid-cols-2 gap-4">
                                             <div className="text-center">
                                                 <div className="text-2xl font-bold text-green-600">
-                                                    {todosDispostivos.filter(disp => disp.status === 'ON').length}
+                                                    {dispositivos.filter(disp => disp.isActivo === true).length}
                                                     <div className="text-xs text-gray-500">En línea</div>
                                                 </div>
                                             </div>
 
                                             <div className="text-center">
                                                 <div className="text-2xl font-bold text-gray-400">
-                                                    {todosDispostivos.filter(disp => disp.status === 'OFF').length}
+                                                    {dispositivos.filter(disp => disp.isActivo === false).length}
                                                     <div className="text-xs text-gray-500">Fuera de línea</div>
                                                 </div>
                                             </div>
@@ -118,7 +131,7 @@ export function DashboardPage({onLogout}: DashboardProps ){
 
                             <div className="mt-6 pt-6 border-t border-gray-200 flex items-center justify-center">
                                 <button
-                                    onClick={() => setDispositivoSeleccionado(null)}
+                                    onClick={() => setMostrarGestion(true)}
                                     className="bg-green-600 py-2 px-4 text-white rounded-lg transition hover:bg-green-700"
                                 >Gestionar Dispositivos
                                 </button>
@@ -131,9 +144,9 @@ export function DashboardPage({onLogout}: DashboardProps ){
                     Si voy a gestionar dispositivos, voy a abrir vista de gestion
                     Si voy a ver un dispositivo, muestro el menú
                     */}
-                    {dispositivoSeleccionado === null ? (
+                    {mostrarGestion || dispositivoSeleccionado === null ? (
                         <div className="col-span-3">
-                            <VistaGestionDispositivos idTenant={tenant} />
+                            <VistaGestionDispositivos idTenant={usuario.idTenant || ""} />
                         </div>
                     ) : (
                         <div className="col-span-3">

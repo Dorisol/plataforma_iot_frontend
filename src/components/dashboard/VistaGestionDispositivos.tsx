@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Settings2, Plus, Wifi, WifiOff, PowerOff} from "lucide-react";
 import type { Dispositivo } from "../../types/DispositivoInterface";
 import { getDispositivosPorTenant } from "../../helpers/helpers";
+import { useDispositivos } from "../../hooks/useDispositivos";
 
 interface GestionDispositivosProps {
     idTenant: string;
@@ -9,19 +10,21 @@ interface GestionDispositivosProps {
 
 export function VistaGestionDispositivos({ idTenant }: GestionDispositivosProps) {
     
-    const dispositivosIniciales = getDispositivosPorTenant(idTenant);
+    const { dispositivos, loading: loadingDispositivos } = useDispositivos(idTenant || "");
 
     //Definir estado de disposivos
     //inicializar con los dispositivos que tengo de este tenant
-    const [dispositivos, setDispositivos] = useState<Dispositivo[]>(dispositivosIniciales);
+    const [thisDispositivos, setThisDispositivos] = useState<Dispositivo[]>(dispositivos);
 
+    
     //Modal
     const [mostrarModalAgregar, setMostrarModalAgregar] = useState(false);
     const [nuevoDispositivo, setNuevoDispositivo] = useState({
         nombre: '',
         tipo: 'MQTT' as 'MQTT' | 'LORA',
     });
-
+    
+    
     //AQUI CONECTAR AL BACK
     const handleAgregarDispositivo = (e: React.FormEvent) => {
         e.preventDefault();
@@ -29,19 +32,21 @@ export function VistaGestionDispositivos({ idTenant }: GestionDispositivosProps)
             const dispositivo: Dispositivo = {
                 idDispositivo: '12',
                 idTenant,
-                nombre: nuevoDispositivo.nombre,
-                tipo: nuevoDispositivo.tipo,
-                status: 'ON',
+                username: nuevoDispositivo.nombre,
+                protocolo: nuevoDispositivo.tipo,
+                isActivo: true,
                 imagenesDisponibles: true,
             };
-            setDispositivos([...dispositivos, dispositivo]);
+            setThisDispositivos([...dispositivos, dispositivo]);
             setNuevoDispositivo({
                 nombre: '',
                 tipo: 'MQTT'})
             setMostrarModalAgregar(false);
         }
     };
+    
 
+    /*
     const handleDesactivarDispositivo = (idDispositivo: string) => {
         if (confirm('¿Estás seguro de que deseas desactivar este dispositivo?')){
             const nuevosDispositivos: Dispositivo[] = dispositivos.map((dispositivo) => {
@@ -56,6 +61,7 @@ export function VistaGestionDispositivos({ idTenant }: GestionDispositivosProps)
             setDispositivos(nuevosDispositivos);
         }
     };
+    */
 
 
     return (
@@ -88,11 +94,11 @@ export function VistaGestionDispositivos({ idTenant }: GestionDispositivosProps)
                             <div className="flex items-center gap-3">
                                 <div className="bg-green-600 w-1 h-9 rounded-sm"><span /></div>
                                 <div>
-                                   <h4 className="font-semibold text-gray-900">{dispositivo.nombre}</h4>
-                                   <p className="text-xs text-gray-500">{dispositivo.tipo}</p> 
+                                   <h4 className="font-semibold text-gray-900">{dispositivo.username}</h4>
+                                   <p className="text-xs text-gray-500">{dispositivo.protocolo}</p> 
                                 </div>
                             </div>
-                            {dispositivo.status === 'ON' ? (
+                            {dispositivo.isActivo === true ? (
                                 <Wifi className="w-5 h-5 text-green-500"/>
                             ) : (
                                 <WifiOff className="w-5 h-5 text-gray-400"/>
@@ -101,13 +107,13 @@ export function VistaGestionDispositivos({ idTenant }: GestionDispositivosProps)
 
                         <div className="flex items-center justify-between pt-3 border-t border-gray-200">
                             <span className={`text-xs font-medium ${
-                                dispositivo.status === 'ON' ? 'text-green-600' : 'text-gray-500'
+                                dispositivo.isActivo === true ? 'text-green-600' : 'text-gray-500'
                             }`}>
-                                {dispositivo.status === 'ON' ? 'En línea' : 'Fuera de línea'}
+                                {dispositivo.isActivo === true ? 'En línea' : 'Fuera de línea'}
                             </span>
 
                             <button
-                            onClick={()=>handleDesactivarDispositivo(dispositivo.idDispositivo)}
+                            //onClick={()=>handleDesactivarDispositivo(dispositivo.idDispositivo)}
                             className="text-red-600 hover:text-red-700 transition"
                             >
                                 <PowerOff className="w-5 h-5"/>    

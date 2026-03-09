@@ -30,7 +30,7 @@ export function VistaDetalles({dispositivo}: DetallesProps){
                             <span className="text-xs font-semibold uppercase ">Nombre del Equipo</span>
                         </div>
                         <p className="text-gray-900 font-medium text-lg">
-                            {dispositivo.nombre}
+                            {dispositivo.username}
                         </p>
                     </div>
 
@@ -41,9 +41,9 @@ export function VistaDetalles({dispositivo}: DetallesProps){
                         </div>
                         <div className="flex">
                             <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                                dispositivo.tipo === 'MQTT' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'
+                                dispositivo.protocolo === 'MQTT' ? 'bg-blue-100 text-blue-700' : 'bg-purple-100 text-purple-700'
                             }`}>
-                                {dispositivo.tipo}
+                                {dispositivo.protocolo}
                             </span>
                         </div>
                     </div>
@@ -54,7 +54,7 @@ export function VistaDetalles({dispositivo}: DetallesProps){
                             <span className="text-xs font-semibold uppercase  ">Tópico de Suscripción</span>
                         </div>
                         <p className="text-sm text-gray-700 font-bold p-2 rounded-lg ">
-                            {dispositivo.tipo === 'MQTT' 
+                            {dispositivo.protocolo === 'MQTT' 
                                 ? `v1/${dispositivo.idTenant}/${dispositivo.idDispositivo}/data` 
                                 : "N/A"}
                         </p>

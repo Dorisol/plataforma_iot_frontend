@@ -1,8 +1,8 @@
 export interface Dispositivo {
     idDispositivo: string;
     idTenant: string;
-    nombre: string; 
-    tipo: "MQTT" | "LORA";
-    status: "ON" | "OFF";
+    username: string; 
+    protocolo: "MQTT" | "LORA"
+    isActivo:  boolean;
     imagenesDisponibles: boolean
 } 

@@ -1,5 +1,5 @@
 
-import { api, API_URL } from "../boot/axios"
+import { api } from "../boot/axios"
 
 //---------------------------------------Type para API RESPONSES---------------------------------------
 interface Usuario {
@@ -64,9 +64,9 @@ export const AuthService = {
     async login(username: string, password: string): Promise<LoginResponse> {
         //Autenticacion
         try {
-            console.log("AuthService: Intentando POST a", `${API_URL}/auth/login`, { username });
+            //console.log("AuthService: Intentando POST a", `${API_URL}/auth/login`, { username });
             const response = await api.post<LoginResponse>("/auth/login", { username, password });
-            console.log("AuthService: Respuesta recibida", response.data);
+            //console.log("AuthService: Respuesta recibida", response.data);
             return response.data;
         } catch (error) {
             console.error("AuthService: Error en la petición", error);
