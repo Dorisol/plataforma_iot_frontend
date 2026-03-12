@@ -3,7 +3,7 @@ import { usuarios } from "../mock/UsuarioMockData";
 import { imagenes } from "../mock/ImagenesMockData";
 import type { Dispositivo } from "../types/DispositivoInterface";
 import type { Usuario } from "../types/UsuarioInterface";
-import type { Sensor } from "../types/SensorDatosInterface";
+//import type { Sensor } from "../types/MedicionesInterface";
 import type { Imagenes } from "../types/ImagenesInterface";
     
 
@@ -16,6 +16,7 @@ export const getUsuarioPorTenant = (tenantId: string): Usuario[] => {
     return usuarios.filter(usuario => usuario.idTenant === tenantId);
 }
 
+/*
 export const generarDatosSensores = (idDispositivo: string): Sensor[] => {
     const datosSensores: Sensor[] = [];
     const now = Date.now();
@@ -38,7 +39,7 @@ export const generarDatosSensores = (idDispositivo: string): Sensor[] => {
 
     return datosSensores;
 };
-
+*/
 
 export const getImagenesPorDispositivo = (idDispositivo:string, idTenant:string): Imagenes[] => {
     const misImagenes = imagenes.filter(imagen => imagen.idDispositivo === idDispositivo && imagen.idTenant === idTenant);

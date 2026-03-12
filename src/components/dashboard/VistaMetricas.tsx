@@ -1,31 +1,25 @@
 import type { Dispositivo } from "../../types/DispositivoInterface";
-import { generarDatosSensores } from "../../helpers/helpers";
 import { es } from "date-fns/locale"
-import { useMemo } from "react";
 import { format } from "date-fns";
-import { Clock, Thermometer, Droplets } from "lucide-react";
+import { Clock, Thermometer, Droplets, Loader2, AlertCircle } from "lucide-react";
 import { ResponsiveContainer, AreaChart, CartesianGrid, XAxis, YAxis, Tooltip, Area } from "recharts";
+import { useMediciones } from "../../hooks/useMediciones";
 
 interface VistaMetricasProps {
     dispositivo: Dispositivo
 }
 
 export function VistaMetricas({ dispositivo }: VistaMetricasProps) {
-    //generar datos de sensores.
-    const sensorDatos = useMemo(() => generarDatosSensores(dispositivo.idDispositivo), [dispositivo.idDispositivo]);
+    const { mediciones, loading, error } = useMediciones(dispositivo.idDispositivo, dispositivo.idTenant);
 
-    //obtener el ultimo dato (sensor)
-    const ultimoDato = sensorDatos[sensorDatos.length - 1]
-
-    //datos para la gráfica
-    const datosGrafica = sensorDatos.map((dato) => ({
-        tiempo: format(dato.timestamp, 'HH:mm', { locale: es }),
-        temperatura: dato.temperatura,
-        humedad: dato.humedad
+    // datos para la gráfica
+    const datosGrafica = mediciones.map((m) => ({
+        tiempo: format(new Date(m.recorded_at), 'HH:mm', { locale: es }),
+        temperatura: m.variable === "temperatura" ? m.val : null,
+        humedad: m.variable === "humedad" ? m.val : null
     }));
 
-    //si dispositivo está desactivado, mostrar mensaje
-    if (dispositivo.status === "OFF") {
+    if (dispositivo.isActivo === false) {
         return (
             <div className="bg-white border-gray-200 rounded-2xl p-8">
                 <div className="text-center text-gray-500">
@@ -43,6 +37,38 @@ export function VistaMetricas({ dispositivo }: VistaMetricasProps) {
         );
     }
 
+    if (loading) {
+        return (
+            <div className="bg-white border-gray-200 rounded-2xl p-8 flex flex-col items-center justify-center min-h-[300px]">
+                <Loader2 className="w-8 h-8 animate-spin text-green-600 mb-2" />
+                <p className="text-gray-500">Cargando datos del servidor...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="bg-white border-red-200 rounded-2xl p-8 flex flex-col items-center justify-center min-h-[300px] border">
+                <AlertCircle className="w-8 h-8 text-red-500 mb-2" />
+                <p className="text-red-600 font-medium">{error || "Error al cargar datos"}</p>
+            </div>
+        );
+    }
+
+    if (mediciones.length === 0) {
+        return (
+            <div className="bg-white border-gray-200 rounded-2xl p-8 flex flex-col items-center justify-center min-h-[300px]">
+                <Droplets className="w-8 h-8 text-gray-300 mb-2" />
+                <p className="text-gray-500">No hay datos disponibles para este dispositivo</p>
+            </div>
+        );
+    }
+
+    // Buscamos el último valor registrado para cada variable en el array
+    const ultimaTemperatura = [...mediciones].reverse().find(m => m.variable === "temperatura")?.val;
+    const ultimaHumedad = [...mediciones].reverse().find(m => m.variable === "humedad")?.val;
+
+
     // contenido principal
     return (
         <div className="space-y-6">
@@ -58,7 +84,7 @@ export function VistaMetricas({ dispositivo }: VistaMetricasProps) {
                         </div>
                     </div>
                     <div className="text-5xl font-bold text-orange-900">
-                        {ultimoDato.temperatura}°C
+                        {ultimaTemperatura ?? '--'}°C
                     </div>
                 </div>
 
@@ -72,7 +98,7 @@ export function VistaMetricas({ dispositivo }: VistaMetricasProps) {
                         </div>
                     </div>
                     <div className="text-5xl font-bold text-blue-900">
-                        {ultimoDato.humedad}%
+                        {ultimaHumedad ?? '--'}%
                     </div>
                 </div>
             </div>
