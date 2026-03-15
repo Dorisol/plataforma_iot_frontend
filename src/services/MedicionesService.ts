@@ -1,12 +1,16 @@
 import {api} from "../boot/axios"
 
+import type { Mediciones } from "../types/MedicionesInterface"
+
 export const MedicionesService = {
 
-    async getTemperatura24hrs(idDispositivo: string, idTenant: string){
+    async getMediciones(idDispositivo: string, idTenant: string, rango: string): Promise<Mediciones[]> {
         try {
-            console.log("idDispositivo", idDispositivo)
-            console.log("idTenant", idTenant)
-            const mediciones = await api.get(`/mediciones/temperatura/semana/${idTenant}/${idDispositivo}`)
+            //console.log("idDispositivo", idDispositivo)
+            //console.log("idTenant", idTenant)
+            const mediciones = await api.get<Mediciones[]>(`/mediciones/${idTenant}/${idDispositivo}`, {
+                params: {rango}
+            })
             console.log("Mediciones", mediciones.data)
             return mediciones.data
 

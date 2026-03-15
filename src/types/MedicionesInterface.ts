@@ -2,7 +2,7 @@ export interface Mediciones {
     idMedicion: string;
     idTenant: string;
     idDispositivo: string;
-    variable: "temperatura" | "humedad";
+    variable: "temperatura" | "humedad" | "voltaje_dc" | "corriente_dc" ;
     val: number;
     unit: string;
     metadata_medicion: {

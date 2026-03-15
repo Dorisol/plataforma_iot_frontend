@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { MedicionesService } from "../services/MedicionesService";
 import type { Mediciones } from "../types/MedicionesInterface";
 
-export function useMediciones(idDispositivo: string, idTenant: string) {
+export function useMediciones(idDispositivo: string, idTenant: string, rango: '24h' | '7d') {
     const [mediciones, setMediciones] = useState<Mediciones[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -10,7 +10,7 @@ export function useMediciones(idDispositivo: string, idTenant: string) {
     const fetchMediciones = async () => {
         try {
             setLoading(true);
-            const data = await MedicionesService.getTemperatura24hrs(idDispositivo, idTenant);
+            const data = await MedicionesService.getMediciones(idDispositivo, idTenant, rango);
             setMediciones(data || []);
             setError(null);
         } catch (error) {
@@ -24,7 +24,7 @@ export function useMediciones(idDispositivo: string, idTenant: string) {
         if (idDispositivo && idTenant) {
             fetchMediciones();
         }
-    }, [idDispositivo, idTenant]);
+    }, [idDispositivo, idTenant, rango]);  //volver a ejecutar cuando cambia el rango
 
     return {
         mediciones,
