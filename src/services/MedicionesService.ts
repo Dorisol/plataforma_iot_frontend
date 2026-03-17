@@ -11,7 +11,7 @@ export const MedicionesService = {
             const mediciones = await api.get<Mediciones[]>(`/mediciones/${idTenant}/${idDispositivo}`, {
                 params: {rango}
             })
-            console.log("Mediciones", mediciones.data)
+            //console.log("Mediciones", mediciones.data)
             return mediciones.data
 
         } catch (error) {

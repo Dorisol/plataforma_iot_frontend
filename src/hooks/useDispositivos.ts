@@ -28,6 +28,45 @@ export function useDispositivos(idTenant: string){
         }
     }, [idTenant]);
 
+
+    //Efecto para escuchar los cambios en tiempo real con websocket
+    useEffect(() => {
+        if (!idTenant)  return;
+
+        const ws = new WebSocket(`ws://localhost:8000/ws/dashboard`);
+
+        ws.onopen = () => {
+            console.log("Conectando al websocket (estado del dispositivo)")
+        }
+
+        ws.onmessage = (event) => {
+            const mensaje = JSON.parse(event.data);
+            
+            if(mensaje.tipo === "cambio_estado"){
+                //actualizar la lista buscando el dispositivo modificado
+                setDispositivos((dispositivosPrevios) =>
+                dispositivosPrevios.map((disp) => 
+                    disp.idDispositivo === mensaje.idDispositivo
+                    ? {...disp, estado: mensaje.estado}
+                    : disp
+                    )
+                );
+            }
+        };
+
+        ws.onerror = (error) => {
+            console.error("Error en WebSocket:", error);
+        };
+
+        ws.onclose = () => {
+            console.log("WebSocket desconectado");
+        };
+
+        return () => {
+            ws.close();
+        };
+    },  [idTenant]);
+
     return {
         dispositivos, 
         loading, 

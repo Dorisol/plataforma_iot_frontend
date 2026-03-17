@@ -33,6 +33,8 @@ export function DashboardPage({usuario, onLogout}: DashboardProps ){
         } 
     }, [dispositivos, dispositivoSeleccionado])
 
+    
+
     //Mostrar un loading
     if (loadingTenant || loadingDispositivos) {
         return (
@@ -129,13 +131,14 @@ export function DashboardPage({usuario, onLogout}: DashboardProps ){
                             )
                             }
 
+                            {/* 
                             <div className="mt-6 pt-6 border-t border-gray-200 flex items-center justify-center">
                                 <button
                                     onClick={() => setMostrarGestion(true)}
                                     className="bg-green-600 py-2 px-4 text-white rounded-lg transition hover:bg-green-700"
                                 >Gestionar Dispositivos
                                 </button>
-                            </div>
+                            </div> */}
 
                         </div>
                     </div>

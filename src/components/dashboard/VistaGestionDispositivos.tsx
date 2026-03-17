@@ -44,24 +44,22 @@ export function VistaGestionDispositivos({ idTenant }: GestionDispositivosProps)
             setMostrarModalAgregar(false);
         }
     };
-    
 
-    /*
+    //Desactivar dispositivo
     const handleDesactivarDispositivo = (idDispositivo: string) => {
         if (confirm('¿Estás seguro de que deseas desactivar este dispositivo?')){
             const nuevosDispositivos: Dispositivo[] = dispositivos.map((dispositivo) => {
                 if (dispositivo.idDispositivo === idDispositivo){
                     return {
                         ...dispositivo,
-                        status: 'OFF' as const,
+                        isActivo: false,
                     };
                 }
                 return dispositivo;
             });
-            setDispositivos(nuevosDispositivos);
+            setThisDispositivos(nuevosDispositivos);
         }
     };
-    */
 
 
     return (
@@ -113,7 +111,7 @@ export function VistaGestionDispositivos({ idTenant }: GestionDispositivosProps)
                             </span>
 
                             <button
-                            //onClick={()=>handleDesactivarDispositivo(dispositivo.idDispositivo)}
+                            onClick={()=>handleDesactivarDispositivo(dispositivo.idDispositivo)}
                             className="text-red-600 hover:text-red-700 transition"
                             >
                                 <PowerOff className="w-5 h-5"/>    

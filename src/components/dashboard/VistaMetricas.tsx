@@ -220,18 +220,18 @@ export function VistaMetricas({ dispositivo }: VistaMetricasProps) {
                 </div>
 
                 {datosVoltaje.length>0 && (
-                <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-6 border border-blue-200">
+                <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-6 border border-green-200">
                     <div className="flex items-center gap-3 mb-4">
-                        <div className="bg-blue-500 p-3 rounded-lg">
-                            <Droplets className="w-6 h-6 text-white" />
+                        <div className="bg-green-500 p-3 rounded-lg">
+                            <Zap className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                            <p className="text-sm text-blue-900 font-medium">
+                            <p className="text-sm text-green-900 font-medium">
                                 Voltaje actual
                             </p>
                         </div>
                     </div>
-                    <div className="text-5xl font-bold text-blue-900">
+                    <div className="text-5xl font-bold text-green-900">
                         {ultimoVoltaje ?? "--"}V
                     </div>
                 </div>
@@ -239,19 +239,19 @@ export function VistaMetricas({ dispositivo }: VistaMetricasProps) {
                 }
 
                 {datosCorriente.length>0 && (
-                <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl p-6 border border-blue-200">
+                <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-6 border border-red-200">
                     <div className="flex items-center gap-3 mb-4">
-                        <div className="bg-blue-500 p-3 rounded-lg">
-                            <Droplets className="w-6 h-6 text-white" />
+                        <div className="bg-red-500 p-3 rounded-lg">
+                            <Zap className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                            <p className="text-sm text-blue-900 font-medium">
+                            <p className="text-sm text-red-900 font-medium">
                                 Voltaje actual
                             </p>
                         </div>
                     </div>
-                    <div className="text-5xl font-bold text-blue-900">
-                        {ultimaCorriente ?? "--"}?
+                    <div className="text-5xl font-bold text-red-900">
+                        {ultimaCorriente ?? "--"}
                     </div>
                 </div>
                 )
