@@ -36,7 +36,7 @@ export function ModalAgregarUsuario({onClose, onAgregarUsuario, tenants}: ModalP
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 bg-gray-500/75 backdrop-blur-sm flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
         <h3 className="text-xl font-bold text-gray-900 mb-4">Nuevo Usuario</h3>
         

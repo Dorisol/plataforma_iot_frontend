@@ -20,14 +20,18 @@ function AppContent() {
   }
 
   //Si no hay usuarios autenticados, mostrar el login
-  // if (!usuario) {
-  //   return <LoginPage/>;
-  // }
+  if (!usuario) {
+      return <LoginPage/>;
+  }
 
-  // //Si hay usuarios autenticados, mostrar el dashboard (admin local)
-  // return <DashboardPage usuario={usuario} onLogout={logout}/>;
+  if(usuario.rol==="SUPER_ADMIN"){
+    return <DashboardSuperuser usuario={usuario} onLogout={logout}/>
+  }
 
-  return <DashboardSuperuser/>
+  //Si hay usuarios autenticados, mostrar el dashboard (admin local)
+  return <DashboardPage usuario={usuario} onLogout={logout}/>;
+
+
 
 }
 

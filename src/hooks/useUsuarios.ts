@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { UsuariosService } from "../services/UsuariosServices";
 import type { Usuario } from "../types/UsuarioInterface";
 
-
 export function useTodoUsuarios() {
     const [usuarios, setUsuarios] = useState<Usuario[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -36,11 +35,22 @@ export function useTodoUsuarios() {
         }
     };
 
+    //eliminar usuario 
+    const eliminarUsuario = async (idUsuario: string) => {
+        try {
+            await UsuariosService.eliminarUsuario(idUsuario);
+            setUsuarios(usuarios.filter((usuario) => usuario.idUsuario !== idUsuario));
+        } catch (error) {
+            console.log("Error al eliminar usuario:", error);
+        }
+    };
+
     return {
         usuarios,
         loading,
         error,
         crearUsuario,
+        eliminarUsuario,
         refresh: fetchUsuarios,
     };
 

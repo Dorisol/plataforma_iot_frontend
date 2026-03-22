@@ -1,15 +1,11 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
 import { AuthService, TokenManager } from "../services/AuthService";
+import type{ LoginUSuario } from "../types/UsuarioInterface";
 
-interface Usuario {
-    idUsuario: string;
-    idTenant?: string;
-    username: string;
-    rol: string;
-}
+
 
 interface AuthContextInterface {
-    usuario: Usuario | null;
+    usuario: LoginUSuario | null;
     isLoading: boolean;
     login: (usuario: string, password: string) => Promise<void>;
     logout: () => void;
@@ -26,7 +22,7 @@ export function useAuth() {
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [usuario, setUsuario] = useState<Usuario | null>(null)
+    const [usuario, setUsuario] = useState<LoginUSuario | null>(null)
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {

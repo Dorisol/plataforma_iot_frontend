@@ -1,20 +1,24 @@
 import { useState } from "react"
 import { Plus, UserIcon, Shield, Trash2 } from "lucide-react"
-import { useTodoUsuarios } from "../../hooks/useTodoUsuarios"
+import { useTodoUsuarios } from "../../hooks/useUsuarios"
 import { useTodoTenants } from "../../hooks/useTodoTenants"
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { ModalAgregarUsuario } from "./ModalAgregarUsuario"
+import { ModalConfirmarEliminar } from "./ModalConfirmarEliminar";
 
 export function VistaUsuarios() {
     //extraer a los usuarios
-    const { usuarios, loading, error, crearUsuario } = useTodoUsuarios()
+    const { usuarios, loading, error, crearUsuario, eliminarUsuario } = useTodoUsuarios()
 
     //traer a los tenants
     const { tenants } = useTodoTenants()
 
     //estado para el modal de agregar
     const [mostrarModalAgregar, setMostrarModalAgregar] = useState(false)
+
+    //estado para modal de confirmacion a eliminar
+    const [confirmacionEliminar, setConfirmacionEliminar] = useState<string | null>(null);
 
     //Manejo de estados
     if (loading) return <div className="p-6">Cargando usuarios...</div>;
@@ -97,7 +101,7 @@ export function VistaUsuarios() {
                                     <td className="px-6 py-4 text-right">
                                         {usuario.rol !== 'SUPER_ADMIN' && (
                                         <button
-                                            // onClick={() => handleDelete(user.id)}
+                                            onClick={() => setConfirmacionEliminar(usuario.idUsuario)}
                                             className="text-red-600 hover:text-red-700 transition"
                                         >
                                             <Trash2 className="w-4 h-4" />
@@ -109,7 +113,7 @@ export function VistaUsuarios() {
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div> 
 
             {/* Modal para agregar un nuevo usuario */}
             {mostrarModalAgregar && (
@@ -119,6 +123,18 @@ export function VistaUsuarios() {
                 tenants={tenants}/>
             )} 
 
+            {confirmacionEliminar && (
+                <ModalConfirmarEliminar
+                onClose={() => setConfirmacionEliminar(null)}
+                onConfirm={() => {
+                    if (confirmacionEliminar) {
+                        eliminarUsuario(confirmacionEliminar);
+                        setConfirmacionEliminar(null); 
+                    }
+                }}
+                />
+            )}
+            
         </div>
      )
 }

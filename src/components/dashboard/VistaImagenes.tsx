@@ -97,7 +97,7 @@ export function VistaImagenes({ dispositivo }: GaleriaImagenesProps) {
             {/* modal para ver la imagen completa */}
             {imagenSeleccionada && (
                 <div
-                    className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center p-4"
+                    className="fixed inset-0 z-50 bg-gray-500/75 backdrop-blur-sm flex items-center justify-center p-4"
                     onClick={() => setImagenSeleccionada(null)}
                 >
                     <button

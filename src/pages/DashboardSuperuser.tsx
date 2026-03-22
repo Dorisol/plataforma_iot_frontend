@@ -2,9 +2,14 @@ import { Activity, LogOut, Building2, User2} from "lucide-react"
 import { useState } from "react"
 import { VistaProyectos } from "../components/dashboardSuperuser.tsx/VistaProyectos"
 import { VistaUsuarios } from "../components/dashboardSuperuser.tsx/VistaUsuarios"
+import type { LoginUSuario } from "../types/UsuarioInterface"
 
+interface DashboardSuperuser {
+    usuario: LoginUSuario;
+    onLogout: () => void;
+}
 
-export function DashboardSuperuser(){
+export function DashboardSuperuser({usuario, onLogout}: DashboardSuperuser){
 
     const [menuSeleccionado, setMenuSeleccionado] = useState<"tenant"|"usuarios">("tenant")
 
@@ -28,11 +33,11 @@ export function DashboardSuperuser(){
 
                     <div className="flex items-center gap-4">
                         <div className="text-right">
-                            <p className="text-sm font-medium text-gray-900">ddd</p>
-                            <p className="text-xs text-green-600">WWWWW</p>
+                            <p className="text-sm font-medium text-gray-900">{usuario.username}</p>
+                            <p className="text-xs text-green-600">{usuario.rol}</p>
                         </div>
                         <button 
-                        // onClick={onLogout}
+                        onClick={onLogout}
                         className="flex items-center gap-2 px-4 py-2 bg-gray-100  hover:bg-green-600 text-gray-700 rounded-2xl transition">
                             <LogOut className="w-4 h-4" />
                             <span>Salir</span>

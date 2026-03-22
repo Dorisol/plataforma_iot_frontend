@@ -6,12 +6,12 @@ import { VistaMetricas } from "../components/dashboard/VistaMetricas";
 import { VistaImagenes } from "../components/dashboard/VistaImagenes";
 import { VistaDetalles } from "../components/dashboard/VistaDetalles";
 import { VistaGestionDispositivos } from "../components/dashboard/VistaGestionDispositivos";
-import type { Usuario } from "../types/UsuarioInterface"; 
+import type { LoginUSuario } from "../types/UsuarioInterface"; 
 import { useDispositivos } from "../hooks/useDispositivos";
 import { useTenant } from "../hooks/useTenant";
 
 interface DashboardProps {
-    usuario: Usuario;
+    usuario: LoginUSuario;
     onLogout: () => void; 
 }
 

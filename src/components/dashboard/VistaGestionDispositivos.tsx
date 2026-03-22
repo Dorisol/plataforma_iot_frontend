@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Settings2, Plus, Wifi, WifiOff, PowerOff} from "lucide-react";
+import { Settings2, Wifi, WifiOff, PowerOff} from "lucide-react";
 import type { Dispositivo } from "../../types/DispositivoInterface";
-import { getDispositivosPorTenant } from "../../helpers/helpers";
 import { useDispositivos } from "../../hooks/useDispositivos";
 
 interface GestionDispositivosProps {
@@ -130,7 +129,7 @@ export function VistaGestionDispositivos({ idTenant }: GestionDispositivosProps)
 
             {/* Modal para agregar dispositivo*/}
             {mostrarModalAgregar && (
-                <div className="fixed inset-0 z-3 bg-opacity-50 bg-black flex items-center justify-center p-4">
+                <div className="fixed inset-0 z-3  bg-gray-500/75 backdrop-blur-sm flex items-center justify-center p-4">
                     <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
                         <h3 className="text-xl font-bold text-gray-900 mb-4">Nuevo dispositivo</h3>
                         <form onSubmit={handleAgregarDispositivo} className="space-y-4">
