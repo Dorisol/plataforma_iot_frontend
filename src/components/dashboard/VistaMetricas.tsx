@@ -67,7 +67,7 @@ export function VistaMetricas({ dispositivo }: VistaMetricasProps) {
             tiempo: format(fecha, rangoTemp === "24h" ? "HH:mm" : "dd/MM HH:mm", {
                 locale: es,
             }),
-            temperatura: m.val
+            temperatura: Number(Number(m.val).toFixed(1))
         };
     });
 
@@ -79,7 +79,7 @@ export function VistaMetricas({ dispositivo }: VistaMetricasProps) {
             tiempo: format(fecha, rangoHum === "24h" ? "HH:mm" : "dd/MM HH:mm", {
                 locale: es,
             }),
-            humedad: m.val
+            humedad:  Number(Number(m.val).toFixed(1))
             
         };
     });
@@ -92,7 +92,7 @@ export function VistaMetricas({ dispositivo }: VistaMetricasProps) {
             tiempo: format(fecha, rangoVolt === "24h" ? "HH:mm" : "dd/MM HH:mm", {
                 locale: es,
             }),
-            voltaje: m.val
+            voltaje: Number(Number(m.val).toFixed(1))
             
         };
     });
@@ -105,7 +105,7 @@ export function VistaMetricas({ dispositivo }: VistaMetricasProps) {
             tiempo: format(fecha, rangoVolt === "24h" ? "HH:mm" : "dd/MM HH:mm", {
                 locale: es,
             }),
-            corriente: m.val
+            corriente:  Number(Number(m.val).toFixed(1))
             
         };
     });

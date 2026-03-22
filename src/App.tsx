@@ -1,5 +1,6 @@
 import { LoginPage} from './pages/LoginPage';
 import { DashboardPage } from './pages/DashboardPage'; 
+import { DashboardSuperuser } from './pages/DashboardSuperuser';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 
@@ -19,12 +20,15 @@ function AppContent() {
   }
 
   //Si no hay usuarios autenticados, mostrar el login
-  if (!usuario) {
-    return <LoginPage/>;
-  }
+  // if (!usuario) {
+  //   return <LoginPage/>;
+  // }
 
-  //Si hay usuarios autenticados, mostrar el dashboard (admin local)
-  return <DashboardPage usuario={usuario} onLogout={logout}/>;
+  // //Si hay usuarios autenticados, mostrar el dashboard (admin local)
+  // return <DashboardPage usuario={usuario} onLogout={logout}/>;
+
+  return <DashboardSuperuser/>
+
 }
 
 export default function App(){

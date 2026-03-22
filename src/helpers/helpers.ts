@@ -16,6 +16,10 @@ export const getUsuarioPorTenant = (tenantId: string): Usuario[] => {
     return usuarios.filter(usuario => usuario.idTenant === tenantId);
 }
 
+export const getCantidadDispositivosPorTenant = (idTenant: string): number => {
+    return getDispositivosPorTenant(idTenant).length;
+}
+
 /*
 export const generarDatosSensores = (idDispositivo: string): Sensor[] => {
     const datosSensores: Sensor[] = [];

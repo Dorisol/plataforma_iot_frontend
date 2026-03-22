@@ -7,8 +7,8 @@ export function useTenant(idTenant: string | undefined) {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchTenant = async () => {
+
+    const fetchTenant = async () => {
             if (!idTenant) {
                 setLoading(false);
                 return;
@@ -23,10 +23,13 @@ export function useTenant(idTenant: string | undefined) {
             } finally {
                 setLoading(false);
             }
-        };
+    };
 
+    useEffect(() => {
         fetchTenant();
     }, [idTenant]);
+
+    
 
     return { 
         tenant, 
