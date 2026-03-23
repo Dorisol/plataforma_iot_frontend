@@ -2,11 +2,13 @@ import { Building2, MapPin, CheckCircle, XCircle } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { useTodoTenants } from "../../hooks/useTodoTenants";
+import { useTodosDispositivos } from "../../hooks/useTodosDispositivos"; 
 
 export function VistaProyectos() {
     //usar hook para traer la información del back
     const { tenants, loading, error } = useTodoTenants();
 
+    const { dispositivos } = useTodosDispositivos();
 
     //Manejo de estados
     if (loading) return <div className="p-6">Cargando proyectos...</div>;
@@ -61,7 +63,9 @@ export function VistaProyectos() {
                         <div className="space-y-2 mb-4">
                             <div className="flex justify-between text-sm">
                                 <span className="text-gray-600">Dispositivos: </span>
-                                <span className="font-semibold text-gray-900"></span>
+                                <span className="font-semibold text-gray-900">
+                                    {dispositivos.filter((dispositivo) => dispositivo.idTenant === tenant.idTenant).length}
+                                </span>
                             </div>
                             <div className="flex justify-between text-sm">
                                 <span className="text-gray-600">Creado:</span>

@@ -8,6 +8,7 @@ export function useDispositivos(idTenant: string){
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
+    //dispositivos por tenant
     const fetchDispositivos = async () => {
         try {
             setLoading(true);
@@ -22,11 +23,30 @@ export function useDispositivos(idTenant: string){
         }
     };
 
+    //todos los dispositivos
+    const fetchTodosDispositivos = async () => {
+        try {
+            setLoading(true);
+            const data = await DispositivoService.getTodosDispositivos();
+            setDispositivos(data || []);
+            setError(null);
+        } catch (err) {
+            setError("Error al obtener todos los dispositivos");
+        } finally {
+            setLoading(false)
+        }
+    };
+
     useEffect(() => {
         if (idTenant) {
             fetchDispositivos();
         }
     }, [idTenant]);
+
+    useEffect(() => {
+        fetchTodosDispositivos();
+    }, []);
+
 
 
     //Efecto para escuchar los cambios en tiempo real con websocket

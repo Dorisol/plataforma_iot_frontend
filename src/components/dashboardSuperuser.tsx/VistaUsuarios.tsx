@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Plus, UserIcon, Shield, Trash2 } from "lucide-react"
-import { useTodoUsuarios } from "../../hooks/useUsuarios"
+import { useUsuarios } from "../../hooks/useUsuarios"
 import { useTodoTenants } from "../../hooks/useTodoTenants"
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
@@ -9,7 +9,7 @@ import { ModalConfirmarEliminar } from "./ModalConfirmarEliminar";
 
 export function VistaUsuarios() {
     //extraer a los usuarios
-    const { usuarios, loading, error, crearUsuario, eliminarUsuario } = useTodoUsuarios()
+    const { usuarios, loading, error, crearUsuario, eliminarUsuario } = useUsuarios()
 
     //traer a los tenants
     const { tenants } = useTodoTenants()
@@ -134,7 +134,7 @@ export function VistaUsuarios() {
                 }}
                 />
             )}
-            
+
         </div>
      )
 }

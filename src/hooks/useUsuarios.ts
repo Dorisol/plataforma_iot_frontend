@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { UsuariosService } from "../services/UsuariosServices";
 import type { Usuario } from "../types/UsuarioInterface";
 
-export function useTodoUsuarios() {
+export function useUsuarios() {
     const [usuarios, setUsuarios] = useState<Usuario[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -15,7 +15,7 @@ export function useTodoUsuarios() {
             setUsuarios(data || []);
             setError(null);
         } catch (err) {
-            setError("Error al conectar con el servidor");
+            setError("Error al obtener usuarios desde el servidor");
         } finally {
             setLoading(false);
         }
