@@ -23,30 +23,22 @@ export function useDispositivos(idTenant: string){
         }
     };
 
-    //todos los dispositivos
-    const fetchTodosDispositivos = async () => {
-        try {
-            setLoading(true);
-            const data = await DispositivoService.getTodosDispositivos();
-            setDispositivos(data || []);
-            setError(null);
-        } catch (err) {
-            setError("Error al obtener todos los dispositivos");
-        } finally {
-            setLoading(false)
-        }
-    };
-
     useEffect(() => {
         if (idTenant) {
             fetchDispositivos();
         }
     }, [idTenant]);
 
-    useEffect(() => {
-        fetchTodosDispositivos();
-    }, []);
 
+
+    const crearDispositivo = async (dispositivo: Dispositivo) => {
+        try {
+            const nuevoDispositivo = await DispositivoService.crearDispositivo(dispositivo);
+            setDispositivos([...dispositivos, nuevoDispositivo]);
+        } catch (error) {
+            console.log("Error al crear dispositivo:", error);
+        }
+    }
 
 
     //Efecto para escuchar los cambios en tiempo real con websocket
@@ -91,6 +83,7 @@ export function useDispositivos(idTenant: string){
         dispositivos, 
         loading, 
         error, 
+        crearDispositivo,
         refetch: fetchDispositivos 
     };
 }

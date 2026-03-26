@@ -17,7 +17,7 @@ interface DashboardProps {
 
 export function DashboardPage({usuario, onLogout}: DashboardProps ){
     //console.log("Este es el usuario:", usuario)
-    const { dispositivos, loading: loadingDispositivos } = useDispositivos(usuario.idTenant || "");
+    const { dispositivos, loading: loadingDispositivos, crearDispositivo } = useDispositivos(usuario.idTenant || "");
     const { tenant, loading: loadingTenant } = useTenant(usuario.idTenant);
     const [ dispositivoSeleccionado, setDispositivoSeleccionado ] = useState<Dispositivo|null>(null);
     const [ mostrarGestion, setMostrarGestion ] = useState(false);
@@ -131,14 +131,13 @@ export function DashboardPage({usuario, onLogout}: DashboardProps ){
                             )
                             }
 
-                            {/* 
                             <div className="mt-6 pt-6 border-t border-gray-200 flex items-center justify-center">
                                 <button
                                     onClick={() => setMostrarGestion(true)}
                                     className="bg-green-600 py-2 px-4 text-white rounded-lg transition hover:bg-green-700"
                                 >Gestionar Dispositivos
                                 </button>
-                            </div> */}
+                            </div> 
 
                         </div>
                     </div>
@@ -149,7 +148,7 @@ export function DashboardPage({usuario, onLogout}: DashboardProps ){
                     */}
                     {mostrarGestion || dispositivoSeleccionado === null ? (
                         <div className="col-span-3">
-                            <VistaGestionDispositivos idTenant={usuario.idTenant || ""} />
+                            <VistaGestionDispositivos idTenant={usuario.idTenant || ""} dispositivos={dispositivos} crearDispositivo={crearDispositivo}/>
                         </div>
                     ) : (
                         <div className="col-span-3">

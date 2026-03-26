@@ -1,64 +1,40 @@
 import { useState } from "react";
-import { Settings2, Wifi, WifiOff, PowerOff} from "lucide-react";
+import { Settings2, Wifi, WifiOff, Plus} from "lucide-react";
 import type { Dispositivo } from "../../types/DispositivoInterface";
-import { useDispositivos } from "../../hooks/useDispositivos";
+import { ModalAgregarDispositivo } from "../../components/dashboard/ModalAgregarDispositivo";
 
 interface GestionDispositivosProps {
     idTenant: string;
+    dispositivos: Dispositivo[];
+    crearDispositivo: (dispositivo: Dispositivo) => Promise<void>;
 }
 
-export function VistaGestionDispositivos({ idTenant }: GestionDispositivosProps) {
+export function VistaGestionDispositivos({ idTenant, dispositivos, crearDispositivo}: GestionDispositivosProps) {
     
-    const { dispositivos, loading: loadingDispositivos } = useDispositivos(idTenant || "");
+    //const { dispositivos, loading: loadingDispositivo, crearDispositivo } = useDispositivos(idTenant || "");
 
     //Definir estado de disposivos
     //inicializar con los dispositivos que tengo de este tenant
     const [thisDispositivos, setThisDispositivos] = useState<Dispositivo[]>(dispositivos);
 
-    
     //Modal
     const [mostrarModalAgregar, setMostrarModalAgregar] = useState(false);
-    const [nuevoDispositivo, setNuevoDispositivo] = useState({
-        nombre: '',
-        tipo: 'MQTT' as 'MQTT' | 'LORA',
-    });
-    
-    
-    //AQUI CONECTAR AL BACK
-    const handleAgregarDispositivo = (e: React.FormEvent) => {
-        e.preventDefault();
-        if(nuevoDispositivo.nombre){
-            const dispositivo: Dispositivo = {
-                idDispositivo: '12',
-                idTenant,
-                username: nuevoDispositivo.nombre,
-                protocolo: nuevoDispositivo.tipo,
-                isActivo: true,
-                imagenesDisponibles: true,
-            };
-            setThisDispositivos([...dispositivos, dispositivo]);
-            setNuevoDispositivo({
-                nombre: '',
-                tipo: 'MQTT'})
-            setMostrarModalAgregar(false);
-        }
-    };
-
+   
     //Desactivar dispositivo
-    const handleDesactivarDispositivo = (idDispositivo: string) => {
-        if (confirm('¿Estás seguro de que deseas desactivar este dispositivo?')){
-            const nuevosDispositivos: Dispositivo[] = dispositivos.map((dispositivo) => {
-                if (dispositivo.idDispositivo === idDispositivo){
-                    return {
-                        ...dispositivo,
-                        isActivo: false,
-                    };
-                }
-                return dispositivo;
-            });
-            setThisDispositivos(nuevosDispositivos);
-        }
-    };
+    // const handleDesactivarDispositivo = (idDispositivo: string) => {
+    //     if (confirm('¿Estás seguro de que deseas desactivar este dispositivo?')){
+    //         const nuevosDispositivos: Dispositivo[] = dispositivos.map((dispositivo) => {
+    //             if (dispositivo.idDispositivo === idDispositivo){
+    //                 return {
+    //                     ...dispositivo,
+    //                     isActivo: false,
+    //                 };
+    //             }
+    //             return dispositivo;
+    //         });
+    //         setThisDispositivos(nuevosDispositivos);
+    //     }
+    // };
 
 
     return (
@@ -71,13 +47,13 @@ export function VistaGestionDispositivos({ idTenant }: GestionDispositivosProps)
                     </h3>
                 </div>
 
-                {/* <button
+                <button
                     onClick={() => setMostrarModalAgregar(true)}
                     className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
                 >
                     <Plus className="w-4 h-4" />
                     Agregar dispositivo
-                </button> */}
+                </button> 
             </div>
 
             <div className="grid grid-cols-3 gap-4 py-4">
@@ -109,12 +85,12 @@ export function VistaGestionDispositivos({ idTenant }: GestionDispositivosProps)
                                 {dispositivo.isActivo === true ? 'En línea' : 'Fuera de línea'}
                             </span>
 
-                            <button
+                            {/* <button
                             onClick={()=>handleDesactivarDispositivo(dispositivo.idDispositivo)}
                             className="text-red-600 hover:text-red-700 transition"
                             >
                                 <PowerOff className="w-5 h-5"/>    
-                            </button>
+                            </button> */}
                         </div>
                     </div>
                 ))}
@@ -129,58 +105,11 @@ export function VistaGestionDispositivos({ idTenant }: GestionDispositivosProps)
 
             {/* Modal para agregar dispositivo*/}
             {mostrarModalAgregar && (
-                <div className="fixed inset-0 z-3  bg-gray-500/75 backdrop-blur-sm flex items-center justify-center p-4">
-                    <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
-                        <h3 className="text-xl font-bold text-gray-900 mb-4">Nuevo dispositivo</h3>
-                        <form onSubmit={handleAgregarDispositivo} className="space-y-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Nombre del dispositivo
-                                </label>
-                                <input
-                                    type="text"
-                                    value={nuevoDispositivo.nombre}
-                                    onChange={(e) => setNuevoDispositivo({...nuevoDispositivo, nombre: e.target.value})}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-transparent outline-none"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Tipo de dispositivo
-                                </label>
-                                <select 
-                                value={nuevoDispositivo.nombre} 
-                                onChange={(e) => setNuevoDispositivo({...nuevoDispositivo, tipo:e.target.value as any})}
-                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-transparent outline-none"
-                                required
-                                >
-                                    <option value="MQTT">MQTT</option>
-                                    <option value="LORA">Raspberry</option>
-                                </select>
-                            </div>
-                            <div className="flex gap-3 pt-4">
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        setMostrarModalAgregar(false);
-                                        setNuevoDispositivo({nombre: '', tipo: 'MQTT'});
-                                    }}
-                                    className="flex-1 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition"
-                                    >
-                                        Cancelar
-                                    </button>
-
-                                <button
-                                    type="submit"
-                                    className="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition"
-                                >
-                                    Agregar
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                <ModalAgregarDispositivo
+                onClose={()=>setMostrarModalAgregar(false)}
+                onAgregarDispositivo={crearDispositivo}
+                idTenant={idTenant}
+                />
             )}
 
 
