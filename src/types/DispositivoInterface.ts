@@ -5,6 +5,7 @@ export interface Dispositivo {
     protocolo: "MQTT" | "LORA"
     rol: "RASP_LOCAL" | "ESP_LOCAL" | "LORA_LOCAL"
     isActivo:  boolean;
+    apiKey: string;
     imagenesDisponibles: boolean
     created_at: Date;
 } 

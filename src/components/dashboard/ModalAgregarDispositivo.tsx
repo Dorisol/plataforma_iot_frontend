@@ -14,8 +14,10 @@ export function ModalAgregarDispositivo({onClose, onAgregarDispositivo, idTenant
         protocolo: 'MQTT',
         rol: 'ESP_LOCAL',
         imagenesDisponibles: true,
-        isActivo: true,
+        isActivo: false,
         idTenant: idTenant,
+        apiKey: '',
+       
     }); 
 
     const [isCargando, setIsCargando] = useState(false);
@@ -54,6 +56,7 @@ export function ModalAgregarDispositivo({onClose, onAgregarDispositivo, idTenant
                             required
                         />
                     </div>
+
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                             Protocolo
@@ -66,6 +69,20 @@ export function ModalAgregarDispositivo({onClose, onAgregarDispositivo, idTenant
                         >
                             <option value="MQTT">MQTT</option>
                         </select>
+                    </div>
+
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Contraseña
+                        </label>
+                        <input
+                            type="text"
+                            value={nuevoDispositivo.apiKey}
+                            onChange={(e) => setNuevoDispositivo({ ...nuevoDispositivo, apiKey: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-transparent outline-none"
+                            required
+                        />
                     </div>
 
 
@@ -92,7 +109,7 @@ export function ModalAgregarDispositivo({onClose, onAgregarDispositivo, idTenant
                         </label>
                         <select
                             value={nuevoDispositivo.imagenesDisponibles ? "true" : "false"}
-                            onChange={(e) => setNuevoDispositivo({ ...nuevoDispositivo, imagenesDisponibles: e.target.value === "true" })}
+                            onChange={(e) => setNuevoDispositivo({ ...nuevoDispositivo, imagenesDisponibles: e.target.value === "false" })}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-transparent outline-none"
                             required
                         >

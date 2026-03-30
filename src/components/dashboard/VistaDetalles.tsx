@@ -48,6 +48,18 @@ export function VistaDetalles({dispositivo}: DetallesProps){
                         </div>
                     </div>
 
+                    <div className="space-y-1">
+                        <div className="flex items-center gap-2 text-gray-500 mb-1">
+                            <Network className="w-4 h-4" />
+                            <span className="text-xs font-semibold uppercase  ">Contraseña</span>
+                        </div>
+                        <div className="flex">
+                            <span className="text-gray-900 font-medium text-lg">
+                                {dispositivo.apiKey}
+                            </span>
+                        </div>
+                    </div>
+
                     <div className="col-span-full space-y-1">
                         <div className="flex items-center gap-2 text-gray-500 mb-1">
                             <Share2 className="w-4 h-4" />

@@ -129,21 +129,21 @@ export function VistaMetricas({ dispositivo }: VistaMetricasProps) {
 
 
 
-    if (dispositivo.isActivo === false) {
-        return (
-            <div className="bg-white border-gray-200 rounded-2xl p-8">
-                <div className="text-center text-gray-500">
-                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Clock className="w-8 h-8 text-gray-400" />
-                    </div>
-                    <h3 className="text-2xl font-medium text-gray-900 mb-2">
-                        Dispositivo fuera de línea
-                    </h3>
-                    <p className="text-sm">Este dispositivo no está enviando datos</p>
-                </div>
-            </div>
-        );
-    }
+    // if (dispositivo.isActivo === false) {
+    //     return (
+    //         <div className="bg-white border-gray-200 rounded-2xl p-8">
+    //             <div className="text-center text-gray-500">
+    //                 <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+    //                     <Clock className="w-8 h-8 text-gray-400" />
+    //                 </div>
+    //                 <h3 className="text-2xl font-medium text-gray-900 mb-2">
+    //                     Dispositivo fuera de línea
+    //                 </h3>
+    //                 <p className="text-sm">Este dispositivo no está enviando datos</p>
+    //             </div>
+    //         </div>
+    //     );
+    // }
 
     if (loadingTemp || loadingHum) {
         return (
